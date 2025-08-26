@@ -1,5 +1,5 @@
 ---
-title: C++自定义排序总结
+title: C++中的sort与自定义排序
 categories:
   - 学习记录
   - C++
@@ -230,6 +230,7 @@ std::sort(people.begin(), people.end(), [](const Person& a, const Person& b) {
     return a.name < b.name;
 });
 ```
+
 
 
 
