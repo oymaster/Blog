@@ -5,7 +5,7 @@ node_modules/
 public/
 
 # Hexo 缓存
-.db.json
+db.json
 *.log
 
 # 系统文件
