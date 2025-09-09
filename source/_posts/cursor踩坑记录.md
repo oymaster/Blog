@@ -9,6 +9,7 @@ poster:
   headline: 大标题
   caption: 标题下方的小字
   color: 标题颜色
+abbrlink: 5015
 date: 2025-08-26 11:16:13
 updated: 2025-08-26 11:16:20
 description:
