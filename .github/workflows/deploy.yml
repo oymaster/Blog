@@ -1,0 +1,53 @@
+name: Deploy Hexo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: |
+          npx hexo clean
+          npx hexo generate
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy to oymaster.github.io
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          cd public
+          git init
+          git add -A
+          git commit -m "Deploy from oymaster/Blog@${GITHUB_SHA}"
+          git branch -M gh-pages
+          git remote add origin https://x-access-token:${GH_TOKEN}@github.com/oymaster/oymaster.github.io.git
+          git push origin gh-pages --force
